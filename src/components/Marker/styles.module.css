@@ -1,0 +1,36 @@
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.wrap {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+}
+
+.marker {
+  display: inline-block;
+  position: relative;
+  padding: 3px;
+  background: rgba(255, 0, 0, 0.5);
+  border-radius: 50%;
+  /* easeInOutQuart */
+  animation: fadeIn 0.6s cubic-bezier(0.77, 0, 0.175, 1) both;
+}
+
+.user {
+  background: purple;
+}
+
+.label {
+  position: absolute;
+  white-space: nowrap;
+  /* display: none; */
+}
