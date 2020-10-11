@@ -5,18 +5,21 @@ import './index.css';
 import { EarthquakeDataProvider } from './contexts/EarthquakeDataContext';
 import { MarkerProvider } from './contexts/MarkerContext';
 import { TooltipProvider } from './contexts/TooltipContext';
+import { UserLocationProvider } from './contexts/UserLocationContext';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
   <React.StrictMode>
-    <EarthquakeDataProvider>
-      <MarkerProvider>
-        <TooltipProvider>
-          <App />
-        </TooltipProvider>
-      </MarkerProvider>
-    </EarthquakeDataProvider>
+    <UserLocationProvider>
+      <EarthquakeDataProvider>
+        <MarkerProvider>
+          <TooltipProvider>
+            <App />
+          </TooltipProvider>
+        </MarkerProvider>
+      </EarthquakeDataProvider>
+    </UserLocationProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );
