@@ -3,13 +3,16 @@ import ReactDOM from 'react-dom';
 
 import './index.css';
 import { EarthquakeDataProvider } from './contexts/EarthquakeDataContext';
+import { MarkerProvider } from './contexts/MarkerContext';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
   <React.StrictMode>
     <EarthquakeDataProvider>
-      <App />
+      <MarkerProvider>
+          <App />
+      </MarkerProvider>
     </EarthquakeDataProvider>
   </React.StrictMode>,
   document.getElementById('root')

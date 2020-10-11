@@ -1,28 +1,32 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useContext } from 'react';
 import cn from 'classnames';
 
 import css from './styles.module.css';
+import { MarkerContext } from '../../contexts/MarkerContext';
 
-function Marker({ geometry, properties, reference, timeOffset }) {
+function Marker({ id, geometry, properties, userMarker, timeOffset }) {
+  const { scaleFactor } = useContext(MarkerContext);
+
   const animationDelay = (properties.time - timeOffset) / 10000;
-  const handleHover = () => {
-    console.log(geometry.coordinates, properties.place);
+  const customStyle = {
+    left: geometry.coordinates[0] * scaleFactor,
+    top: geometry.coordinates[1] * -scaleFactor,
+    padding: `${properties.mag * scaleFactor}px`,
+    animationDelay: `${animationDelay}ms`,
   };
 
   // console.log((properties.time - timeOffset) / 10000);
   return (
-    <div className={css.wrap} onMouseOver={handleHover}>
-      <div
-        className={cn(css.marker, { [css.user]: reference })}
-        style={{
-          left: geometry.coordinates[0] * 2,
-          top: geometry.coordinates[1] * -3,
-          padding: `${properties.mag * 2}px`,
-          animationDelay: `${animationDelay}ms`,
-        }}
+    <div
+      className={css.wrap}
+    >
+      <button
+        className={cn(css.marker, { [css.userMarker]: userMarker })}
+        style={customStyle}
+        aria-controls={tooltipId}
       >
-        {/* <span className={css.label}>{Math.round(geometry.coordinates[1])}</span> */}
-      </div>
+        <span className="sr-only">Hover or focus for more info</span>
+      </button>
     </div>
   );
 }
