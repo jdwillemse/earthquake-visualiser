@@ -3,9 +3,13 @@ import cn from 'classnames';
 
 import css from './styles.module.css';
 import { MarkerContext } from '../../contexts/MarkerContext';
+import { TooltipContext } from '../../contexts/TooltipContext';
+import { tooltipId } from '../Tooltip';
 
+// [longitude,latitude]
 function Marker({ id, geometry, properties, userMarker, timeOffset }) {
   const { scaleFactor } = useContext(MarkerContext);
+  const { setActiveFeature } = useContext(TooltipContext);
 
   const animationDelay = (properties.time - timeOffset) / 10000;
   const customStyle = {
@@ -15,10 +19,27 @@ function Marker({ id, geometry, properties, userMarker, timeOffset }) {
     animationDelay: `${animationDelay}ms`,
   };
 
+  const handleMouseOver = useCallback(() => {
+    setActiveFeature({ id, geometry, properties });
+  }, [setActiveFeature, id, geometry, properties]);
+
+  const handleMouseOut = useCallback(() => {
+    // keep the tooltip visible after hover
+    // this is a naive implementation and in production I'd use a presence lib
+
+    setActiveFeature(null);
+
+    return () => {};
+  }, [setActiveFeature]);
+
   // console.log((properties.time - timeOffset) / 10000);
   return (
     <div
       className={css.wrap}
+      onMouseOver={handleMouseOver}
+      onFocus={handleMouseOver}
+      onMouseOut={handleMouseOut}
+      onBlur={handleMouseOut}
     >
       <button
         className={cn(css.marker, { [css.userMarker]: userMarker })}
