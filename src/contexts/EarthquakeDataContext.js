@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from 'react';
 
+import { requestInterval, clearRequestInterval } from '../utils/timers';
+
+const FETCH_INTERVAL = 60000;
 const ENDPOINT =
   'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojson';
 
@@ -8,6 +11,8 @@ const initialState = {
   earthquakeData: {},
 };
 
+const filterEarthquakes = (item) => item.properties.type === 'earthquake';
+
 export const EarthquakeDataContext = React.createContext(initialState);
 
 export const EarthquakeDataProvider = ({ children }) => {
@@ -15,16 +20,32 @@ export const EarthquakeDataProvider = ({ children }) => {
     initialState.earthquakeData
   );
 
-  useEffect(() => {
+  function fetchData() {
     fetch(ENDPOINT)
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
-        setEarthquakeData(data);
+        // not all features are earthquakes so remove the ones that arent
+        const earthQuakeFeatures = data.features.filter(filterEarthquakes);
+        setEarthquakeData({
+          ...data,
+          features: earthQuakeFeatures,
+        });
       })
       .catch((error) => {
-        // TODO: handle errors
+        // in production I'd never use an alert like this
+        alert('Fetching data failed. Please refresh the page to try again');
+        console.log(error);
       });
+  }
+
+  useEffect(() => {
+    fetchData();
+    const interval = requestInterval(() => {
+      fetchData();
+    }, FETCH_INTERVAL);
+    return () => {
+      clearRequestInterval(interval);
+    };
   }, [setEarthquakeData]);
 
   return (
