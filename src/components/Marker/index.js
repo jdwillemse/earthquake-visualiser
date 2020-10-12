@@ -1,16 +1,15 @@
 import React, { useCallback, useContext } from 'react';
-import cn from 'classnames';
 
 import css from './styles.module.css';
 import { MarkerContext } from '../../contexts/MarkerContext';
 import { TooltipContext } from '../../contexts/TooltipContext';
-import { tooltipId } from '../Tooltip';
+import Dot from '../Dot';
 
 // [longitude,latitude]
-function Marker({ id, geometry, properties, userMarker, timeOffset }) {
+function Marker({ geometry, properties, timeOffset }) {
+  console.log('Marker');
   const { scaleFactor } = useContext(MarkerContext);
   const { setActiveFeature } = useContext(TooltipContext);
-
   const animationDelay = (properties.time - timeOffset) / 10000;
   const customStyle = {
     left: geometry.coordinates[0] * scaleFactor,
@@ -20,16 +19,11 @@ function Marker({ id, geometry, properties, userMarker, timeOffset }) {
   };
 
   const handleMouseOver = useCallback(() => {
-    setActiveFeature({ id, geometry, properties });
-  }, [setActiveFeature, id, geometry, properties]);
+    setActiveFeature({ geometry, properties });
+  }, [setActiveFeature, geometry, properties]);
 
   const handleMouseOut = useCallback(() => {
-    // keep the tooltip visible after hover
-    // this is a naive implementation and in production I'd use a presence lib
-
     setActiveFeature(null);
-
-    return () => {};
   }, [setActiveFeature]);
 
   // console.log((properties.time - timeOffset) / 10000);
@@ -41,13 +35,7 @@ function Marker({ id, geometry, properties, userMarker, timeOffset }) {
       onMouseOut={handleMouseOut}
       onBlur={handleMouseOut}
     >
-      <button
-        className={cn(css.marker, { [css.userMarker]: userMarker })}
-        style={customStyle}
-        aria-controls={tooltipId}
-      >
-        <span className="sr-only">Hover or focus for more info</span>
-      </button>
+      <Dot customStyle={customStyle} />
     </div>
   );
 }
@@ -57,4 +45,4 @@ Marker.defaultProps = {
   properties: {},
 };
 
-export default Marker;
+export default React.memo(Marker);
