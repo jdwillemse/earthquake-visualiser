@@ -6,6 +6,7 @@ import './App.css';
 import { requestInterval, clearRequestInterval } from './utils/timers';
 import { fetchData } from './slices/earthquakeDataSlice';
 import { calculateScaleFactor } from './slices/markerSlice';
+import Header from './components/Header';
 import MarkerList from './components/MarkerList';
 import Tooltip from './components/Tooltip';
 
@@ -45,12 +46,7 @@ function App() {
 
   return (
     <div className="App">
-      <header>
-        <h1>Earthquakes of the last 24 hours</h1>
-        <div>
-          Hover markers to find out how far they are from your current location
-        </div>
-      </header>
+      <Header />
       <Tooltip />
       <MarkerList />
     </div>

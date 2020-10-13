@@ -26,6 +26,7 @@ function Tooltip() {
         role="region"
         aria-live="polite"
       >
+        {/* used to fade out aniumation after activeFeature is unset */}
         <AnimatePresence>
           {activeFeature && (
             <motion.div
