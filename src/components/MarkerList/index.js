@@ -1,10 +1,14 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 
 import css from './styles.module.css';
 import Marker from '../Marker';
 import UserMarker from '../UserMarker';
+import { selectData } from '../../slices/earthquakeDataSlice';
 
-function MarkerList({ features }) {
+function MarkerList() {
+  const { features } = useSelector(selectData);
+
   if (!features) {
     return null;
   }
@@ -17,7 +21,6 @@ function MarkerList({ features }) {
       {features.map((item) => (
         <Marker {...item} timeOffset={timeOffset} key={item.id} />
       ))}
-      {/* <Marker geometry={{ coordinates: [0, 0] }} userMarker /> */}
     </div>
   );
 }

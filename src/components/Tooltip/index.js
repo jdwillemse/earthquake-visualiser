@@ -1,17 +1,18 @@
-import React, { useContext } from 'react';
+import React from 'react';
+import { useSelector } from 'react-redux';
 import { motion, AnimatePresence } from 'framer-motion';
 
 import css from './styles.module.css';
-import { TooltipContext } from '../../contexts/TooltipContext';
-import { UserLocationContext } from '../../contexts/UserLocationContext';
+import { selectActiveFeature } from '../../slices/tooltipSlice';
+import { selectCoordinates } from '../../slices/userLocationSlice';
 import { getDistance } from '../../utils/math';
 
 export const tooltipId = 'tooltip';
 
 // [longitude,latitude]
 function Tooltip() {
-  const { activeFeature } = useContext(TooltipContext);
-  const { coordinates } = useContext(UserLocationContext);
+  const activeFeature = useSelector(selectActiveFeature);
+  const coordinates = useSelector(selectCoordinates);
 
   const distance =
     activeFeature &&

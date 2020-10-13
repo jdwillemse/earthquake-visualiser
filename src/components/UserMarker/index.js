@@ -1,24 +1,36 @@
-import React, { useContext, useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { selectScaleFactor } from '../../slices/markerSlice';
+import {
+  setActiveFeature,
+  unsetActiveFeature,
+} from '../../slices/tooltipSlice';
+import {
+  getUserLocation,
+  selectCoordinates,
+} from '../../slices/userLocationSlice';
 
 import css from './styles.module.css';
 import Dot from '../Dot';
-import { UserLocationContext } from '../../contexts/UserLocationContext';
-import { MarkerContext } from '../../contexts/MarkerContext';
-import { TooltipContext } from '../../contexts/TooltipContext';
 
 function UserMarker() {
-  const { coordinates } = useContext(UserLocationContext);
-  const { scaleFactor } = useContext(MarkerContext);
-  const { setActiveFeature } = useContext(TooltipContext);
+  const coordinates = useSelector(selectCoordinates);
+  const scaleFactor = useSelector(selectScaleFactor);
+  const dispatch = useDispatch();
   const customCopy = `Looks like your coordinates are ${coordinates}`;
 
   const handleMouseOver = useCallback(() => {
-    setActiveFeature({ geometry: { coordinates }, customCopy });
-  }, [setActiveFeature, coordinates, customCopy]);
+    dispatch(setActiveFeature({ geometry: { coordinates }, customCopy }));
+  }, [dispatch, coordinates, customCopy]);
 
   const handleMouseOut = useCallback(() => {
-    setActiveFeature(null);
-  }, [setActiveFeature]);
+    dispatch(unsetActiveFeature());
+  }, [dispatch]);
+
+  // get user location to place marker
+  useEffect(() => {
+    dispatch(getUserLocation());
+  }, [dispatch]);
 
   if (!coordinates) {
     return null;
