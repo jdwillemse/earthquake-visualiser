@@ -4,19 +4,12 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 import css from './styles.module.css';
 import { selectActiveFeature } from '../../slices/tooltipSlice';
-import { selectCoordinates } from '../../slices/userLocationSlice';
-import { getDistance } from '../../utils/math';
 
 export const tooltipId = 'tooltip';
 
 // [longitude,latitude]
 function Tooltip() {
   const activeFeature = useSelector(selectActiveFeature);
-  const coordinates = useSelector(selectCoordinates);
-
-  const distance =
-    activeFeature &&
-    getDistance(coordinates, activeFeature.geometry.coordinates);
 
   return (
     <div className={css.wrap}>
@@ -40,7 +33,8 @@ function Tooltip() {
               {activeFeature.properties && (
                 <div>
                   Magnitude <strong>{activeFeature.properties.mag}</strong> |{' '}
-                  <strong>{Math.round(distance)} km</strong> from you
+                  <strong>{Math.round(activeFeature.distance)} km</strong> from
+                  you
                 </div>
               )}
             </motion.div>

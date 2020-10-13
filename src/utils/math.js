@@ -1,17 +1,49 @@
 // https://www.movable-type.co.uk/scripts/latlong.html
-// φ is latitude, λ is longitude, R is earth’s radius (mean radius = 6,371km);
-// note that angles need to be in radians to pass to trig functions!
-export const getDistance = ([long1, lat1], [long2, lat2]) => {
+
+// φ is latitude, λ is longitude, Δλ is taking shortest route (<180°),
+// R is the earth’s radius, ln is natural log
+export const getRhumbDistance = ([long1, lat1], [long2, lat2]) => {
   const R = 6371e3; // metres
   const φ1 = (lat1 * Math.PI) / 180; // φ, λ in radians
   const φ2 = (lat2 * Math.PI) / 180;
   const Δφ = ((lat2 - lat1) * Math.PI) / 180;
-  const Δλ = ((long2 - long1) * Math.PI) / 180;
+  let Δλ = ((long2 - long1) * Math.PI) / 180;
 
-  const a =
-    Math.sin(Δφ / 2) * Math.sin(Δφ / 2) +
-    Math.cos(φ1) * Math.cos(φ2) * Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
-  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  const Δψ = Math.log(
+    Math.tan(Math.PI / 4 + φ2 / 2) / Math.tan(Math.PI / 4 + φ1 / 2)
+  );
+  const q = Math.abs(Δψ) > 10e-12 ? Δφ / Δψ : Math.cos(φ1); // E-W course becomes ill-conditioned with 0/0
 
-  return (R * c) / 1000; // in kilometres
+  // if dLon over 180° take shorter rhumb line across the anti-meridian:
+  if (Math.abs(Δλ) > Math.PI)
+    Δλ = Δλ > 0 ? -(2 * Math.PI - Δλ) : 2 * Math.PI + Δλ;
+
+  return (Math.sqrt(Δφ * Δφ + q * q * Δλ * Δλ) * R) / 1000; // in kilometres
+};
+
+// copied from https://github.com/Turfjs/turf/blob/c863c6abfb71a00c4e1d123f8178d026059f4f6e/packages/turf-helpers/index.ts
+const bearingToAzimuth = (bearing) => {
+  let angle = bearing % 360;
+  if (angle < 0) {
+    angle += 360;
+  }
+  return angle;
+};
+
+// φ is latitude, λ is longitude, Δλ is taking shortest route (<180°),
+// R is the earth’s radius, ln is natural log
+export const getRhumbBearing = ([long1, lat1], [long2, lat2]) => {
+  const φ1 = (lat1 * Math.PI) / 180; // φ, λ in radians
+  const φ2 = (lat2 * Math.PI) / 180;
+  let Δλ = ((long2 - long1) * Math.PI) / 180;
+
+  const Δψ = Math.log(
+    Math.tan(Math.PI / 4 + φ2 / 2) / Math.tan(Math.PI / 4 + φ1 / 2)
+  );
+
+  // if dLon over 180° take shorter rhumb line across the anti-meridian:
+  if (Math.abs(Δλ) > Math.PI)
+    Δλ = Δλ > 0 ? -(2 * Math.PI - Δλ) : 2 * Math.PI + Δλ;
+
+  return bearingToAzimuth((Math.atan2(Δλ, Δψ) * 180) / Math.PI);
 };

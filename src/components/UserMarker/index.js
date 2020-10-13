@@ -20,8 +20,8 @@ function UserMarker() {
   const customCopy = `Looks like your coordinates are ${coordinates}`;
 
   const handleMouseOver = useCallback(() => {
-    dispatch(setActiveFeature({ geometry: { coordinates }, customCopy }));
-  }, [dispatch, coordinates, customCopy]);
+    dispatch(setActiveFeature({ customCopy }));
+  }, [dispatch, customCopy]);
 
   const handleMouseOut = useCallback(() => {
     dispatch(unsetActiveFeature());
@@ -36,8 +36,8 @@ function UserMarker() {
     return null;
   }
   const customStyle = {
-    left: coordinates[0] * scaleFactor,
-    top: coordinates[1] * -scaleFactor,
+    left: 0,
+    top: 0,
     padding: `${scaleFactor * 2}px`,
     animationDelay: 0,
   };

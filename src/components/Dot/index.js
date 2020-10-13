@@ -4,7 +4,7 @@ import cn from 'classnames';
 import css from './styles.module.css';
 import { tooltipId } from '../Tooltip';
 
-function Marker({ customStyle, userMarker }) {
+function Dot({ customStyle, userMarker }) {
   return (
     <button
       className={cn(css.marker, { [css.userMarker]: userMarker })}
@@ -16,4 +16,4 @@ function Marker({ customStyle, userMarker }) {
   );
 }
 
-export default Marker;
+export default Dot;

@@ -2,7 +2,9 @@
 
 [https://earthquake-visualiser.vercel.app/](https://earthquake-visualiser.vercel.app/)
 
-Using the data provided by the USGS API I chose to display the features according to their lat long position. The user's position is also indicated using the native geolocation API. The USGS endpoint data is updated at constant intervals so my app also polls the API at these intervals to keep data up to date.
+Using the data provided by the USGS API I chose to display the features according to their distance and bearing which I calculated relative to the user's position. The distances are mapped onto a logorythmic circle to allow for large varied distances to be displayed more compactly. Since the Richter scale is also a log scale I thought this a nice reference. The USGS endpoint data is updated at constant intervals so my app also polls the API at these intervals to keep data up to date.
+
+The user's position is gathered using the native geolocation API. It is also possibble to choose a different location to see the data visualisation change. Use the text links in the header for this.
 
 When the user interacts with the feature markers a tooltip is shown that gives basic info about the feature and the distance from the user to the feature. I aimed to incorporate best accessibility practices here.
 

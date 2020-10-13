@@ -1,5 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+import { getRhumbDistance, getRhumbBearing } from '../utils/math';
+
 const ENDPOINT =
   'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojson';
 
@@ -20,12 +22,28 @@ export const earthquakeDataSlice = createSlice({
 export const { updateData } = earthquakeDataSlice.actions;
 
 // Fetch data from API endpoint
-export const fetchData = () => (dispatch) => {
+export const fetchData = (userCoordinates) => (dispatch) => {
   fetch(ENDPOINT)
     .then((response) => response.json())
     .then((data) => {
       // not all features are earthquakes so remove the ones that arent
-      const earthQuakeFeatures = data.features.filter(filterEarthquakes);
+
+      const earthQuakeFeatures = data.features
+        .filter(filterEarthquakes)
+        .map((item) => {
+          return {
+            ...item,
+            distance: getRhumbDistance(
+              userCoordinates,
+              item.geometry.coordinates
+            ),
+            bearing: getRhumbBearing(
+              userCoordinates,
+              item.geometry.coordinates
+            ),
+          };
+        });
+
       dispatch(
         updateData({
           ...data,

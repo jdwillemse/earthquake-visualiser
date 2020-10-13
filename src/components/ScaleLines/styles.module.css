@@ -1,0 +1,25 @@
+.circle {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  border: 1px solid #f00;
+  border-radius: 50%;
+  width: 200px;
+  height: 200px;
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.label {
+  display: block;
+  transform: translateY(-110%);
+}
+
+.circle:nth-child(2) {
+  width: 400px;
+  height: 400px;
+}
+
+.circle:nth-child(3) {
+  width: 600px;
+  height: 600px;
+}

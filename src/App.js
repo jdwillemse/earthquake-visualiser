@@ -3,30 +3,13 @@ import { useDispatch } from 'react-redux';
 import { debounce } from 'lodash';
 
 import './App.css';
-import { requestInterval, clearRequestInterval } from './utils/timers';
-import { fetchData } from './slices/earthquakeDataSlice';
 import { calculateScaleFactor } from './slices/markerSlice';
 import Header from './components/Header';
 import MarkerList from './components/MarkerList';
 import Tooltip from './components/Tooltip';
 
-// corresponds to the endpoint update rate
-const FETCH_INTERVAL = 60000;
-
 function App() {
   const dispatch = useDispatch();
-
-  // fetch eatchquake data
-  useEffect(() => {
-    dispatch(fetchData());
-    // keep polling the endpoint for data changes
-    const interval = requestInterval(() => {
-      dispatch(fetchData());
-    }, FETCH_INTERVAL);
-    return () => {
-      clearRequestInterval(interval);
-    };
-  }, [dispatch]);
 
   // calculate size of marker canvas and add listeners to repeat calc after resize
   useEffect(() => {
