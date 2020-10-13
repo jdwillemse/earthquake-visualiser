@@ -13,6 +13,7 @@ function MarkerList() {
     return null;
   }
 
+  // get the time of the last event and use that to calculate relative time of event
   const timeOffset = features[features.length - 1].properties.time;
 
   return (
