@@ -41,10 +41,12 @@ function MarkerList() {
   return (
     <div className={css.wrap}>
       <ScaleLines />
-      <UserMarker />
-      {features?.map((item) => (
-        <Marker {...item} timeOffset={timeOffset} key={item.id} />
-      ))}
+      <div className={css.markersWrap}>
+        <UserMarker />
+        {features?.map((item) => (
+          <Marker {...item} timeOffset={timeOffset} key={item.id} />
+        ))}
+      </div>
     </div>
   );
 }

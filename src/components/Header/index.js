@@ -8,9 +8,9 @@ const tky = [139.839478, 35.652832];
 
 function Marker() {
   return (
-    <header>
+    <header className={css.header}>
       <h1 className={css.title}>Earthquakes during the last 24 hours</h1>
-      <div>
+      <div className={css.intro}>
         Hover markers to find out how far they are from your current location.
         Change to <a href={`?lon=${sf[0]}&lat=${sf[1]}`}>San Francisco</a> or{' '}
         <a href={`?lon=${ct[0]}&lat=${ct[1]}`}>Cape Town</a> or{' '}

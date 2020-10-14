@@ -1,4 +1,15 @@
 .wrap {
   position: relative;
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
   flex: 1;
+}
+
+.markersWrap {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding-bottom: 100%;
 }

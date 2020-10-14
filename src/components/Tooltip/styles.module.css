@@ -2,3 +2,15 @@
   min-height: 100px;
   margin-top: 30px;
 }
+
+@media (min-width: 600px) {
+  .wrap {
+    margin-bottom: -30px;
+  }
+}
+
+@media (min-width: 768px) {
+  .wrap {
+    margin-bottom: -50px;
+  }
+}
