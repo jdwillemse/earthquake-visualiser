@@ -21,11 +21,15 @@ export const earthquakeDataSlice = createSlice({
     // this prevents one becoming a bottleneck for the other
     groomData: (state, action) => {
       if (state.rawData.length) {
-        state.data = state.rawData.map((item) => ({
-          ...item,
-          distance: getRhumbDistance(action.payload, item.geometry.coordinates),
-          bearing: getRhumbBearing(action.payload, item.geometry.coordinates),
-        }));
+        state.data = state.rawData.map(
+          ({ id, geometry, properties: { time, place, mag } }) => ({
+            id,
+            // only pick the properties that are used in the app
+            properties: { time, place, mag },
+            distance: getRhumbDistance(action.payload, geometry.coordinates),
+            bearing: getRhumbBearing(action.payload, geometry.coordinates),
+          })
+        );
       }
     },
   },
