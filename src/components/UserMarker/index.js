@@ -19,6 +19,9 @@ function UserMarker() {
   const scaleFactor = useSelector(selectScaleFactor);
   const dispatch = useDispatch();
   const customCopy = `Looks like your coordinates are ${coordinates}`;
+  const customStyle = {
+    padding: `${Math.round(scaleFactor * 2)}px`,
+  };
 
   const handleMouseOver = useCallback(() => {
     dispatch(setActiveFeature({ customCopy }));
@@ -38,14 +41,7 @@ function UserMarker() {
     dispatch(groomData(coordinates));
   }, [dispatch, coordinates]);
 
-  if (!coordinates) {
-    return null;
-  }
-  const customStyle = {
-    padding: `${Math.round(scaleFactor * 2)}px`,
-  };
-
-  return (
+  return coordinates ? (
     <div
       className={css.wrap}
       onMouseOver={handleMouseOver}
@@ -55,7 +51,7 @@ function UserMarker() {
     >
       <Dot customStyle={customStyle} userMarker />
     </div>
-  );
+  ) : null;
 }
 
 export default UserMarker;
