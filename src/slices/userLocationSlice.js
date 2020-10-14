@@ -6,7 +6,7 @@ const berlin = [13.404954, 52.520008];
 export const userLocationSlice = createSlice({
   name: 'userLocation',
   initialState: {
-    coordinates: berlin,
+    coordinates: null,
   },
   reducers: {
     setCoordinates: (state, action) => {

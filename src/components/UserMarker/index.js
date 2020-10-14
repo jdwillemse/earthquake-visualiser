@@ -12,6 +12,7 @@ import {
 
 import css from './styles.module.css';
 import Dot from '../Dot';
+import { groomData } from '../../slices/earthquakeDataSlice';
 
 function UserMarker() {
   const coordinates = useSelector(selectCoordinates);
@@ -32,14 +33,16 @@ function UserMarker() {
     dispatch(getUserLocation());
   }, [dispatch]);
 
+  // when coordinates update groom the data again without fetching it anew
+  useEffect(() => {
+    dispatch(groomData(coordinates));
+  }, [dispatch, coordinates]);
+
   if (!coordinates) {
     return null;
   }
   const customStyle = {
-    left: 0,
-    top: 0,
-    padding: `${scaleFactor * 2}px`,
-    animationDelay: 0,
+    padding: `${Math.round(scaleFactor * 2)}px`,
   };
 
   return (
