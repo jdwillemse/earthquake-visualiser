@@ -10,7 +10,7 @@ export const getRhumbDistance = ([long1, lat1], [long2, lat2]) => {
   let Δλ = ((long2 - long1) * Math.PI) / 180;
 
   const Δψ = Math.log(
-    Math.tan(Math.PI / 4 + φ2 / 2) / Math.tan(Math.PI / 4 + φ1 / 2)
+    Math.tan(Math.PI / 4 + φ2 / 2) / Math.tan(Math.PI / 4 + φ1 / 2),
   );
   const q = Math.abs(Δψ) > 10e-12 ? Δφ / Δψ : Math.cos(φ1); // E-W course becomes ill-conditioned with 0/0
 
@@ -38,7 +38,7 @@ export const getRhumbBearing = ([long1, lat1], [long2, lat2]) => {
   let Δλ = ((long2 - long1) * Math.PI) / 180;
 
   const Δψ = Math.log(
-    Math.tan(Math.PI / 4 + φ2 / 2) / Math.tan(Math.PI / 4 + φ1 / 2)
+    Math.tan(Math.PI / 4 + φ2 / 2) / Math.tan(Math.PI / 4 + φ1 / 2),
   );
 
   // if dLon over 180° take shorter rhumb line across the anti-meridian:

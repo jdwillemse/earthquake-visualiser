@@ -28,7 +28,7 @@ export const earthquakeDataSlice = createSlice({
             properties: { time, place, mag },
             distance: getRhumbDistance(action.payload, geometry.coordinates),
             bearing: getRhumbBearing(action.payload, geometry.coordinates),
-          })
+          }),
         );
       }
     },
