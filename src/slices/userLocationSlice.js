@@ -4,7 +4,7 @@ import queryString from "query-string";
 const berlin = [13.404954, 52.520008];
 
 export const userLocationSlice = createSlice({
-  name: 'userLocation',
+  name: "userLocation",
   initialState: {
     coordinates: null,
   },
@@ -19,7 +19,7 @@ export const { setCoordinates } = userLocationSlice.actions;
 
 // Fetch data from API endpoint
 export const getUserLocation = () => (dispatch) => {
-  const parsedQuery = parse(window.location.search);
+  const parsedQuery = queryString.parse(window.location.search);
 
   const success = (position) => {
     const { latitude, longitude } = position.coords;
@@ -36,7 +36,7 @@ export const getUserLocation = () => (dispatch) => {
     dispatch(setCoordinates([parsedQuery.lon, parsedQuery.lat]));
   } else if (!navigator.geolocation) {
     // in production this should alert the user of the problem
-    console.log('Geolocation is not supported by your browser');
+    console.log("Geolocation is not supported by your browser");
     error();
   } else {
     navigator.geolocation.getCurrentPosition(success, error);
