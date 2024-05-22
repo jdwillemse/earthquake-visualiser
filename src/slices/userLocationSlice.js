@@ -1,5 +1,5 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { parse } from 'query-string';
+import { createSlice } from "@reduxjs/toolkit";
+import queryString from "query-string";
 
 const berlin = [13.404954, 52.520008];
 
