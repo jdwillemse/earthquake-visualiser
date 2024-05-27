@@ -1,3 +1,12 @@
+:root {
+  /* this is the constant all log numbers are multiplied with to derive placement values */
+  --band-interval-constant: min(20vw, 20vh);
+  /* make marker size responsive */
+  --scale-factor: var(--band-interval-constant) / 50;
+  /* the user marker appears at the center of the graph */
+  --user-marker-size: 2;
+}
+
 .App {
   display: flex;
   flex-direction: column;

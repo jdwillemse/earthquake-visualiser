@@ -1,11 +1,7 @@
 import React, { useCallback } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import css from './styles.module.css';
-import {
-  selectScaleFactor,
-  selectRingInterval,
-} from '../../slices/markerSlice';
 import {
   setActiveFeature,
   unsetActiveFeature,
@@ -14,23 +10,14 @@ import Dot from '../Dot';
 
 // [longitude,latitude]
 function Marker({ distance, bearing, properties, timeOffset }) {
-  const scaleFactor = useSelector(selectScaleFactor);
-  // distance in px between log circles
-  const ringInterval = useSelector(selectRingInterval);
   const dispatch = useDispatch();
   // fade marker in based on earthquake time
   const animationDelay = (properties.time - timeOffset) / 10000;
 
-  const ring = Math.floor(Math.log10(distance)); // the log band the marker belongs in
-  const offset = Math.pow(10, ring); // distance before current log band
-  const percentageOfRing =
-    (distance - offset) / (Math.pow(10, ring + 1) - offset); // % where in log band the marker is meant to be places
-  const position = percentageOfRing * ringInterval + ringInterval * (ring - 1); // add previous bands to position in current band
-
   const customStyle = {
-    left: `${position}px`,
-    padding: `${properties.mag * scaleFactor}px`,
-    animationDelay: `${animationDelay}ms`,
+    '--magnitude': properties.mag,
+    '--distance': distance,
+    '--animation-delay': `${animationDelay}ms`,
   };
 
   const handleMouseOver = useCallback(() => {
@@ -43,14 +30,14 @@ function Marker({ distance, bearing, properties, timeOffset }) {
 
   return (
     <div
-      style={{ transform: `rotate(${bearing - 90}deg)` }}
+      style={{ transform: `rotate(${bearing - 90}deg)`, ...customStyle }}
       className={css.wrap}
       onMouseOver={handleMouseOver}
       onFocus={handleMouseOver}
       onMouseOut={handleMouseOut}
       onBlur={handleMouseOut}
     >
-      <Dot customStyle={customStyle} />
+      <Dot />
     </div>
   );
 }

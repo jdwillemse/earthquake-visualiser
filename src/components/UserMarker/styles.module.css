@@ -1,5 +1,37 @@
+@keyframes pulse {
+  100% {
+    box-shadow: 0 0 0 20px #0000;
+  }
+}
+
 .wrap {
   position: absolute;
   top: 50%;
   left: 50%;
+}
+
+.loader {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: calc(var(--user-marker-size) * var(--scale-factor));
+  border-radius: 50%;
+  box-shadow: 0 0 0 0 #0004;
+  animation: pulse 3s infinite linear;
+  transform: translate(-50%, -50%);
+}
+
+.loader:before,
+.loader:after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: 0 0 0 0 #0004;
+  animation: inherit;
+  animation-delay: -1s;
+}
+
+.loader:after {
+  animation-delay: -2s;
 }
