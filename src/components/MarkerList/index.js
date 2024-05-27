@@ -17,7 +17,7 @@ function MarkerList() {
 
   const dispatch = useDispatch();
 
-  // fetch eatchquake data
+  // fetch earthquake data
   useEffect(() => {
     dispatch(fetchData());
     // clear interval before reassigning variable
@@ -35,7 +35,7 @@ function MarkerList() {
   }, [dispatch]);
 
   // get the time of the last event and use that to calculate relative time of event
-  const timeOffset = features && features[features.length - 1].properties.time;
+  const timeOffset = features && features[features.length - 1]?.properties.time;
 
   return (
     <div className={css.wrap}>
