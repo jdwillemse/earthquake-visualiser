@@ -1,19 +1,18 @@
 import React, { useCallback } from 'react';
-import { useDispatch } from 'react-redux';
 
 import css from './styles.module.css';
-import {
-  setActiveFeature,
-  unsetActiveFeature,
-} from '../../slices/tooltipSlice';
+import { useTooltipStore } from '../../slices/tooltipSlice';
 import Dot from '../Dot';
 
-// [longitude,latitude]
 function Marker({ distance, bearing, properties, timeOffset }) {
-  const dispatch = useDispatch();
+  const { setSelectedMarker, clearSelectedMarker } = useTooltipStore(
+    (state) => ({
+      setSelectedMarker: state.setSelectedMarker,
+      clearSelectedMarker: state.clearSelectedMarker,
+    }),
+  );
   // fade marker in based on earthquake time
   const animationDelay = (properties.time - timeOffset) / 10000;
-
   const customStyle = {
     '--magnitude': properties.mag,
     '--distance': distance,
@@ -21,12 +20,12 @@ function Marker({ distance, bearing, properties, timeOffset }) {
   };
 
   const handleMouseOver = useCallback(() => {
-    dispatch(setActiveFeature({ distance, properties }));
-  }, [dispatch, distance, properties]);
+    setSelectedMarker({ distance, properties });
+  }, [setSelectedMarker, distance, properties]);
 
   const handleMouseOut = useCallback(() => {
-    dispatch(unsetActiveFeature());
-  }, [dispatch]);
+    clearSelectedMarker();
+  }, [clearSelectedMarker]);
 
   return (
     <div
