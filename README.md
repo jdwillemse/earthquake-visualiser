@@ -13,7 +13,7 @@ I chose to not make use of any mapping APIs as I thought that would be the most 
 ## Technology
 
 - This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-- Redux is used for state management
+- Zustand is used for state management
 - The Framer motion animation library is minimally used for its presence feature
 
 ## Available Scripts

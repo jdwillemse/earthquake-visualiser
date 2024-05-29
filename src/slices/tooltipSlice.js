@@ -1,22 +1,11 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { create } from 'zustand';
 
-export const tooltipSlice = createSlice({
-  name: 'tooltip',
-  initialState: {
-    activeFeature: null,
+export const useTooltipStore = create((set) => ({
+  selectedMarker: null,
+  setSelectedMarker: (payload) => {
+    set({ selectedMarker: payload });
   },
-  reducers: {
-    setActiveFeature: (state, action) => {
-      state.activeFeature = action.payload;
-    },
-    unsetActiveFeature: (state) => {
-      state.activeFeature = null;
-    },
+  clearSelectedMarker: () => {
+    set({ selectedMarker: null });
   },
-});
-
-export const { setActiveFeature, unsetActiveFeature } = tooltipSlice.actions;
-
-export const selectActiveFeature = (state) => state.tooltip.activeFeature;
-
-export default tooltipSlice.reducer;
+}));

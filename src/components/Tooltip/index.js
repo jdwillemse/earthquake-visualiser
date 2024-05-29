@@ -1,15 +1,13 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
 import { motion, AnimatePresence } from 'framer-motion';
 
 import css from './styles.module.css';
-import { selectActiveFeature } from '../../slices/tooltipSlice';
+import { useTooltipStore } from '../../slices/tooltipSlice';
 
 export const tooltipId = 'tooltip';
 
-// [longitude,latitude]
 function Tooltip() {
-  const activeFeature = useSelector(selectActiveFeature);
+  const selectedMarker = useTooltipStore((state) => state.selectedMarker);
 
   return (
     <div className={css.wrap}>
@@ -19,21 +17,21 @@ function Tooltip() {
         role="region"
         aria-live="polite"
       >
-        {/* used to fade out animation after activeFeature is unset */}
+        {/* used to fade out animation after selectedMarker is unset */}
         <AnimatePresence>
-          {activeFeature && (
+          {selectedMarker && (
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
             >
               <h3>
-                {activeFeature.customCopy || activeFeature.properties.place}
+                {selectedMarker.customCopy || selectedMarker.properties?.place}
               </h3>
-              {activeFeature.properties && (
+              {selectedMarker.properties && (
                 <div>
-                  Magnitude <strong>{activeFeature.properties.mag}</strong> |{' '}
-                  <strong>{Math.round(activeFeature.distance)} km</strong> from
+                  Magnitude <strong>{selectedMarker.properties.mag}</strong> |{' '}
+                  <strong>{Math.round(selectedMarker.distance)} km</strong> from
                   you
                 </div>
               )}
