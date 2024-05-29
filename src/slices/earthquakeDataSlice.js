@@ -35,8 +35,7 @@ export const useEarthquakeStore = create((set, get) => ({
     const coordinates = useUserLocationStore.getState().coordinates;
     const rawData = get().rawData;
 
-    // // only groom data if coordinates for user have been found
-
+    // only groom data if coordinates for user have been found
     const groomedData =
       coordinates && rawData
         ? rawData.map(({ id, geometry, properties: { time, place, mag } }) => ({
@@ -46,7 +45,7 @@ export const useEarthquakeStore = create((set, get) => ({
             distance: getRhumbDistance(coordinates, geometry.coordinates),
             bearing: getRhumbBearing(coordinates, geometry.coordinates),
           }))
-        : [];
+        : null;
     set({ earthquakes: groomedData });
   },
 }));

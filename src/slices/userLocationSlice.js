@@ -30,4 +30,7 @@ export const useUserLocationStore = create((set) => ({
       navigator.geolocation.getCurrentPosition(success, error);
     }
   },
+  setUserLocation: (coords) => {
+    set({ coordinates: coords.split(',') });
+  },
 }));
