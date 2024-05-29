@@ -5,7 +5,6 @@ import ScaleLines from '../ScaleLines';
 import Marker from '../Marker';
 import UserMarker from '../UserMarker';
 import { useEarthquakeStore } from '../../slices/earthquakeDataSlice';
-import { requestInterval, clearRequestInterval } from '../../utils/timers';
 
 // corresponds to the endpoint update rate
 const FETCH_INTERVAL = 60000;
@@ -22,15 +21,15 @@ function MarkerList() {
     fetchEarthquakeData();
     // clear interval before reassigning variable
     if (interval.current) {
-      clearRequestInterval(interval.current);
+      clearInterval(interval.current);
     }
     // keep polling the endpoint for data changes
-    interval.current = requestInterval(() => {
+    interval.current = setInterval(() => {
       fetchEarthquakeData();
     }, FETCH_INTERVAL);
 
     return () => {
-      clearRequestInterval(interval.current);
+      clearInterval(interval.current);
     };
   }, [fetchEarthquakeData]);
 
