@@ -3,12 +3,20 @@ import { create } from 'zustand';
 import { getRhumbDistance, getRhumbBearing } from '../utils/math';
 import { useUserLocationStore } from './userLocationSlice';
 
+interface EarthquakeState {
+  rawData: null | any;
+  earthquakes: null | any;
+  fetchEarthquakeData: () => void;
+  callEndpoint: () => Promise;
+  groomData: () => void;
+}
+
 const ENDPOINT =
   'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojson';
 
 const filterEarthquakes = (item) => item.properties.type === 'earthquake';
 
-export const useEarthquakeStore = create((set, get) => ({
+export const useEarthquakeStore = create<EarthquakeState>((set, get) => ({
   rawData: null,
   earthquakes: null,
   fetchEarthquakeData: () => {
