@@ -2,7 +2,10 @@
 
 // φ is latitude, λ is longitude, Δλ is taking shortest route (<180°),
 // R is the earth’s radius, ln is natural log
-export const getRhumbDistance = ([long1, lat1], [long2, lat2]) => {
+export const getRhumbDistance = (
+  [long1, lat1]: [number, number],
+  [long2, lat2]: [number, number],
+): number => {
   const R = 6371e3; // metres
   const φ1 = (lat1 * Math.PI) / 180; // φ, λ in radians
   const φ2 = (lat2 * Math.PI) / 180;
@@ -22,7 +25,7 @@ export const getRhumbDistance = ([long1, lat1], [long2, lat2]) => {
 };
 
 // copied from https://github.com/Turfjs/turf/blob/c863c6abfb71a00c4e1d123f8178d026059f4f6e/packages/turf-helpers/index.ts
-const bearingToAzimuth = (bearing) => {
+const bearingToAzimuth = (bearing: number): number => {
   let angle = bearing % 360;
   if (angle < 0) {
     angle += 360;
@@ -32,7 +35,10 @@ const bearingToAzimuth = (bearing) => {
 
 // φ is latitude, λ is longitude, Δλ is taking shortest route (<180°),
 // R is the earth’s radius, ln is natural log
-export const getRhumbBearing = ([long1, lat1], [long2, lat2]) => {
+export const getRhumbBearing = (
+  [long1, lat1]: [number, number],
+  [long2, lat2]: [number, number],
+): number => {
   const φ1 = (lat1 * Math.PI) / 180; // φ, λ in radians
   const φ2 = (lat2 * Math.PI) / 180;
   let Δλ = ((long2 - long1) * Math.PI) / 180;

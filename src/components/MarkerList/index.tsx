@@ -14,7 +14,7 @@ function MarkerList() {
     earthquakes: state.earthquakes,
     fetchEarthquakeData: state.fetchEarthquakeData,
   }));
-  const interval = useRef(null);
+  const interval = useRef(0);
 
   // fetch earthquake data
   useEffect(() => {
@@ -24,7 +24,7 @@ function MarkerList() {
       clearInterval(interval.current);
     }
     // keep polling the endpoint for data changes
-    interval.current = setInterval(() => {
+    interval.current = window.setInterval(() => {
       fetchEarthquakeData();
     }, FETCH_INTERVAL);
 
@@ -34,8 +34,9 @@ function MarkerList() {
   }, [fetchEarthquakeData]);
 
   // get the time of the last event and use that to calculate relative time of event
-  const timeOffset =
-    earthquakes && earthquakes[earthquakes.length - 1]?.properties.time;
+  const timeOffset = earthquakes
+    ? earthquakes[earthquakes.length - 1]?.properties.time
+    : 0;
 
   return (
     <div className={css.wrap}>
