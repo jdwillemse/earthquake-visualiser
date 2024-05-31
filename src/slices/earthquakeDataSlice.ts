@@ -2,7 +2,7 @@ import { create } from 'zustand';
 
 import { getRhumbDistance, getRhumbBearing } from '../utils/math';
 import { useUserLocationStore } from './userLocationSlice';
-import { Earthquake, Feature } from '../types/types';
+import { APIResponse, Earthquake, Feature } from '../types/types';
 
 interface EarthquakeState {
   rawData: null | Feature[];
@@ -15,7 +15,7 @@ interface EarthquakeState {
 const ENDPOINT =
   'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojson';
 
-const filterEarthquakes = (item: Earthquake) =>
+const filterEarthquakes = (item: Earthquake): Boolean =>
   item.properties.type === 'earthquake';
 
 export const useEarthquakeStore = create<EarthquakeState>()((set, get) => ({
@@ -26,14 +26,12 @@ export const useEarthquakeStore = create<EarthquakeState>()((set, get) => ({
     get().callEndpoint().then(get().groomData);
 
     // when coordinates update groom the data again without fetching it anew
-    const unsubscribe = useUserLocationStore.subscribe(get().groomData);
-    // TODO: figure out if this is correct
-    return unsubscribe;
+    useUserLocationStore.subscribe(get().groomData);
   },
   callEndpoint: async () => {
     // Fetch data from API endpoint
     const response = await fetch(ENDPOINT);
-    const data = await response.json();
+    const data: APIResponse = await response.json();
     // not all features are earthquakes so remove the ones that are not
     const earthQuakeFeatures = data.features.filter(filterEarthquakes);
 

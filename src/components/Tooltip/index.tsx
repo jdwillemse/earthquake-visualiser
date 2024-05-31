@@ -31,8 +31,8 @@ function Tooltip() {
               {selectedMarker.properties && (
                 <div>
                   Magnitude <strong>{selectedMarker.properties.mag}</strong> |{' '}
-                  <strong>{Math.round(selectedMarker.distance)} km</strong> from
-                  you
+                  <strong>{Math.round(selectedMarker.distance ?? 0)} km</strong>{' '}
+                  from you
                 </div>
               )}
             </motion.div>

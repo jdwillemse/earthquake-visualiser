@@ -9,7 +9,7 @@ function ScaleLines() {
 
   return (
     <div className={css.wrap}>
-      {rings.map((distance) => (
+      {rings.map((distance: number) => (
         <Fragment key={distance}>
           <div
             className={css.circle}
@@ -19,17 +19,13 @@ function ScaleLines() {
           </div>
 
           {distance !== rings[rings.length - 1] &&
-            Array(9)
-              .fill('')
-              .map((_, i) => (
-                <div
-                  className={classNames(css.circle, css.subCircle)}
-                  style={
-                    { '--band-value': distance * (i + 1) } as CSSProperties
-                  }
-                  key={distance * i}
-                ></div>
-              ))}
+            [...Array(9)].map((_: void, i) => (
+              <div
+                className={classNames(css.circle, css.subCircle)}
+                style={{ '--band-value': distance * (i + 1) } as CSSProperties}
+                key={distance * i}
+              ></div>
+            ))}
         </Fragment>
       ))}
     </div>
