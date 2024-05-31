@@ -1,4 +1,5 @@
 import React, { useCallback } from 'react';
+import type { MouseEvent } from 'react';
 
 import css from './styles.module.css';
 import { useUserLocationStore } from '../../slices/userLocationSlice';
@@ -12,11 +13,11 @@ function Marker() {
     setUserLocation: state.setUserLocation,
   }));
   const handleClick = useCallback(
-    (event) => {
+    (event: MouseEvent<HTMLAnchorElement>) => {
       event.preventDefault();
-      setUserLocation(event.target.dataset.coords);
+      setUserLocation(event.currentTarget.dataset.coords as string);
       if (window.history.pushState) {
-        window.history.pushState({}, '', event.target.href);
+        window.history.pushState({}, '', event.currentTarget.href);
       }
     },
     [setUserLocation],

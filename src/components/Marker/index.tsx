@@ -3,8 +3,14 @@ import React, { useCallback } from 'react';
 import css from './styles.module.css';
 import { useTooltipStore } from '../../slices/tooltipSlice';
 import Dot from '../Dot';
+import { Earthquake } from '../../types/types';
 
-function Marker({ distance, bearing, properties, timeOffset }) {
+function Marker({
+  distance,
+  bearing,
+  properties,
+  timeOffset,
+}: Earthquake & { timeOffset: number }) {
   const { setSelectedMarker, clearSelectedMarker } = useTooltipStore(
     (state) => ({
       setSelectedMarker: state.setSelectedMarker,
