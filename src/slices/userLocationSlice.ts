@@ -22,7 +22,7 @@ export const useUserLocationStore = create<UserLocationState>()((set, get) => ({
     const parsedQuery = queryString.parse(window.location.search);
 
     // prioritize query string if it contains valid data
-    if (parsedQuery.lat && parsedQuery.lon) {
+    if (parsedQuery && parsedQuery.lat && parsedQuery.lon) {
       // TODO: add validation
       set({ coordinates: [Number(parsedQuery.lon), Number(parsedQuery.lat)] });
     } else if (!navigator.geolocation) {
